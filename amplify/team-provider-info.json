@@ -10,6 +10,14 @@
             "StackName": "amplify-covidclient-dev-220940",
             "StackId": "arn:aws:cloudformation:us-west-2:378706508412:stack/amplify-covidclient-dev-220940/aa5620e0-a9fe-11ea-a776-0aa1ce010932",
             "AmplifyAppId": "d1s1dt3kfymbj0"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d1s1dt3kfymbj0",
+                    "type": "cicd"
+                }
+            }
         }
     }
 }
