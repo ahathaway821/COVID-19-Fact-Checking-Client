@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 class NoMatch extends React.Component {
     render() {
@@ -10,4 +11,4 @@ class NoMatch extends React.Component {
     }
 }
 
-export default NoMatch;
+export default withRouter(NoMatch);

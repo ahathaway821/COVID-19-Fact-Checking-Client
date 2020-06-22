@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 class Predict extends React.Component {
     render() {
@@ -10,4 +11,4 @@ class Predict extends React.Component {
     }
 }
 
-export default Predict;
+export default withRouter(Predict);
