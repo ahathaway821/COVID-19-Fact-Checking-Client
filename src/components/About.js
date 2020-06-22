@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 class About extends React.Component {
     // props are icon, label, action, disabled
@@ -14,4 +15,4 @@ class About extends React.Component {
     }
 }
 
-export default About;
+export default withRouter(About);

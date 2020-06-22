@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 class Contact extends React.Component {
     // props are icon, label, action, disabled
@@ -11,4 +12,4 @@ class Contact extends React.Component {
     }
 }
 
-export default Contact;
+export default withRouter(Contact);
