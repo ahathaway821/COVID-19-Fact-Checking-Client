@@ -5,15 +5,17 @@ import {
 	Route
   } from "react-router-dom";
 
-import About from "./components/About";
-import Header from "./components/Header";
-import OurData from "./components/OurData";
-import Contact from "./components/Contact";
-import Home from "./components/Home";
-import Predict from "./components/Predict";
-import NoMatch from "./components/NoMatch";
-import Layout from "./components/Layout";
-import Jumbotron from "./components/Jumbotron";
+import {
+  About,
+  Header,
+  OurData,
+  Contact,
+  Jumbotron,
+  Layout,
+  Home,
+  Predict,
+  NoMatch,
+} from "./components";
 
 class App extends Component {
 	render() {
