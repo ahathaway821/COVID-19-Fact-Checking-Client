@@ -5,6 +5,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// Import as a module in your JS
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
