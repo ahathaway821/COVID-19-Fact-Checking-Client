@@ -17,7 +17,7 @@ services:
     
 
   es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
     container_name: es01
     environment:
       - node.name=es01
@@ -33,13 +33,13 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data01:/usr/share/elasticsearch/data
+      - esdata01:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
     networks:
       - elastic
   es02:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
     container_name: es02
     environment:
       - node.name=es02
@@ -55,11 +55,11 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data02:/usr/share/elasticsearch/data
+      - esdata02:/usr/share/elasticsearch/data
     networks:
       - elastic
   es03:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
     container_name: es03
     environment:
       - node.name=es03
@@ -75,16 +75,16 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data03:/usr/share/elasticsearch/data
+      - esdata03:/usr/share/elasticsearch/data
     networks:
       - elastic
 
 volumes:
-  data01:
+  esdata01:
     driver: local
-  data02:
+  esdata02:
     driver: local
-  data03:
+  esdata03:
     driver: local
 
 networks:
