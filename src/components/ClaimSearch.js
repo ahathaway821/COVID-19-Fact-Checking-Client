@@ -3,6 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
+console.log(process.env.ES_HOST);
 const HOST = process.env.ES_HOST ?? 'http://localhost:9200/';
 const SEARCH_URI = `${HOST}claim-match/claims/_search`;
 
