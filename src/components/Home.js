@@ -1,16 +1,11 @@
 import React from "react";
-import logo from "../img/logo.png";
 import { Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
-import { ClaimSearch } from '.'
 
+import ClaimSearch from "./ClaimSearch";
+
+import logo from "../img/logo.png";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-
-/*
-Examples: 
-1. https://codesandbox.io/s/react-bootstrap-typeahead-async-pagination-example-qg895?file=/src/index.js:2538-2915
-2. http://ericgio.github.io/react-bootstrap-typeahead/#asynchronous-searching
-*/
 
 const imageStyle = {
     display: "block",
@@ -21,14 +16,26 @@ const imageStyle = {
 class Home extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            value: ''
+        }
         this.handlePredict = this.handlePredict.bind(this);
+        this.handleChangeValue = this.handleChangeValue.bind(this);
+    }
+
+    handleChangeValue = (val) => {
+        this.setState({value: val[0].claim});
     }
 
     handlePredict() {
-        this.props.history.push("/predict");
+        this.props.history.push({
+            pathname: '/predict',
+            state: { claim: this.state.value }
+        })
     }
 
     render() {
+        console.log("this.props are ", this.props);
         return (
             <div>
                 <img 
@@ -36,7 +43,7 @@ class Home extends React.Component {
                     alt={"CovidFact"} 
                     style={imageStyle} 
                 />
-                <ClaimSearch/>
+                <ClaimSearch onChangeValue={this.handleChangeValue} />
                 <br />
                 <div className="text-center">
                     <Button variant="secondary" onClick={this.handlePredict}>Predict Claim</Button>
