@@ -7,15 +7,15 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Run `docker-compose up --build` to setup the docker container. This replaces the steps below
 
-## 1. Build docker container
+#### 1. Build docker container
 
 `docker build -t covid-client:dev .`
 
-## 2. Run the docker container
+#### 2. Run the docker container
 
 `docker run -it --rm -v ${PWD}:/app -v /app/node_modules -p 3001:3000 -e CHOKIDAR_USEPOLLING=true covid-client:dev`
 
-# 3. Docker-Compose
+#### 3. Docker-Compose
 
 `docker-compose up`
 
