@@ -33,6 +33,7 @@ class ClaimSearch extends React.Component {
                 "sort": ["_score", {"date": "desc"}]
             })
             .then(res => {
+                console.log("res is ", res);
                 const options = res.data.hits.hits.map((i) => ({
                     claim: i._source.claim,
                     claim_source: i._source.claim_source,
@@ -43,7 +44,6 @@ class ClaimSearch extends React.Component {
             })
         };
 
-        console.log("this.state claimsearch are ", this.state);
         return (
             <AsyncTypeahead
                 id="aync-claim-search"
