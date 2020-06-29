@@ -37,24 +37,27 @@ class ClaimSearch extends React.Component {
     render() {
         const handleSearch = (query) => {
             this.setState({isLoading: true});
-
             axios.post(SEARCH_URI, {
                 "query": {
                     "match": {
-                    "claim": query
+                      "claim": {
+                        "query": query,
+                        "operator": "or",
+                        "fuzziness": 1
+                      }
                     }
                 },
                 "sort": ["_score", {"date": "desc"}]
             }, config)
             .then(res => {
-                const body = isLocal? res.data : JSON.parse(res.data.body)
-                const options = body.hits.hits.map((i) => ({
+                const body = isLocal ? res.data : JSON.parse(res.data.body)
+                const opts = body.hits.hits.map((i) => ({
                     claim: i._source.claim,
                     claim_source: i._source.claim_source,
                     label: i._source.label,
-                    date: i._source.date
+                    date: i._source.date,
                 }));
-                this.setState({options: options, isLoading: false});
+                this.setState({options: opts, isLoading: false});
             })
         };
 
@@ -62,12 +65,13 @@ class ClaimSearch extends React.Component {
             <AsyncTypeahead
                 id="aync-claim-search"
                 isLoading={this.state.isLoading}
-                labelKey="claim"
                 minLength={3}
+                labelKey={option => `${option.claim}`}
                 onSearch={handleSearch}
                 onChange={this.handleChange}
                 options={this.state.options}
                 placeholder="Search for a COVID-19 Fact"
+                filterBy={(option, props) => option}
                 renderMenuItemChildren={(option, props) => (
                 <div>
                     <span>{option.label}</span>
