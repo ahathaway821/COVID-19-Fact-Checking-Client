@@ -2,9 +2,23 @@ import React from "react";
 import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
-console.log(process.env.ES_HOST);
-const HOST = process.env.ES_HOST ?? 'http://localhost:9200/';
-const SEARCH_URI = `${HOST}claim-match/_search`;
+const isLocal = process.env.IS_LOCAL ?? false;
+let SEARCH_URI = ''
+let config = {};
+
+if (isLocal) {
+  const HOST = process.env.ES_HOST ?? 'http://localhost:9200/';
+  SEARCH_URI = `${HOST}claim-match/_search`;
+}
+else {
+  SEARCH_URI = 'https://dth721wco0.execute-api.us-west-2.amazonaws.com/dev';
+  config = {
+    headers: {
+      'x-api-key': 'Atw9UJtWiftiOggtm5HnauIs2lzQXsI4yzpUwTmf',
+      'Content-Type': 'application/json'
+    }
+  }
+}
 
 class ClaimSearch extends React.Component {
     constructor(props) {
@@ -31,10 +45,10 @@ class ClaimSearch extends React.Component {
                     }
                 },
                 "sort": ["_score", {"date": "desc"}]
-            })
+            }, config)
             .then(res => {
-                console.log("res is ", res);
-                const options = res.data.hits.hits.map((i) => ({
+                const body = isLocal? res.data : JSON.parse(res.data.body)
+                const options = body.hits.hits.map((i) => ({
                     claim: i._source.claim,
                     claim_source: i._source.claim_source,
                     label: i._source.label,
