@@ -10,19 +10,18 @@ import {
   Header,
   OurData,
   Contact,
-  Jumbotron,
   Layout,
   Home,
   Predict,
   NoMatch,
 } from "./components";
+import './App.css';
 
 class App extends Component {
 	render() {
 		return (
 			<React.Fragment>
 				<Header />
-				<Jumbotron />
 				<Layout>
 					<Router>
 					<Switch>

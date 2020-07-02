@@ -28,14 +28,22 @@ class ClaimSearch extends React.Component {
             options: []
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    handleInputChange(selected) {
+        console.log("handleInputChange ", selected);
+        this.props.onChangeValue(selected, false);    
     }
 
     handleChange(selected) {
-        this.props.onChangeValue(selected);    
+        console.log("handleChange ", selected);
+        this.props.onChangeValue(selected, true);    
     }
 
     render() {
         const handleSearch = (query) => {
+            console.log("handleSearch query ", query);
             this.setState({isLoading: true});
             axios.post(SEARCH_URI, {
                 "query": {
@@ -62,26 +70,36 @@ class ClaimSearch extends React.Component {
         };
 
         return (
-            <AsyncTypeahead
-                id="aync-claim-search"
-                isLoading={this.state.isLoading}
-                minLength={3}
-                labelKey={option => `${option.claim}`}
-                onSearch={handleSearch}
-                onChange={this.handleChange}
-                options={this.state.options}
-                placeholder="Search for a COVID-19 Fact"
-                filterBy={(option, props) => option}
-                renderMenuItemChildren={(option, props) => (
-                <div>
-                    <span>{option.label}</span>
-                    <span>{" | "}</span>
-                    <span>{option.claim}</span>
-                    <span>{" | "}</span>
-                    <span>{option.date}</span>
-                </div>
-                )}
-            />
+            <div className="sticky-top">
+                <AsyncTypeahead
+                    id="aync-claim-search"
+                    isLoading={this.state.isLoading}
+                    minLength={3}
+                    labelKey={option => `${option.claim}`}
+                    onSearch={handleSearch}
+                    // onInputChange={this.handleInputChange}
+                    onChange={this.handleChange}
+                    options={this.state.options}
+                    placeholder={this.props.placeHolder}
+                    filterBy={(option, props) => option}
+                    renderMenuItemChildren={(option, props) => (
+                    <div>
+                        <span>{option.label}</span>
+                        <span>{" | "}</span>
+                        <span>{option.claim}</span>
+                        <span>{" | "}</span>
+                        <span>{option.date}</span>
+                    </div>
+                    )}
+                />
+                {/* <br />
+                <hr
+                    style={{
+                        color: "black",
+                        marginTop: "0px"
+                    }}
+                /> */}
+            </div>
         );
     }
 }
