@@ -29,46 +29,45 @@ class ClaimSearch extends React.Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
-    handleInputChange(selected) {
-        console.log("handleInputChange ", selected);
-        this.props.onChangeValue(selected, false);    
+    handleInputChange(val) {
+        this.props.onChangeValue(val);    
     }
 
     handleChange(selected) {
-        console.log("handleChange ", selected);
-        this.props.onChangeValue(selected, true);    
+        this.props.onSelectedValue(selected);    
+    }
+
+    handleSearch = (query) => {
+        console.log("handleSearch query ", query);
+        this.setState({isLoading: true});
+        axios.post(SEARCH_URI, {
+            "query": {
+                "match": {
+                  "claim": {
+                    "query": query,
+                    "operator": "or",
+                    "fuzziness": 1
+                  }
+                }
+            },
+            "sort": ["_score", {"date": "desc"}]
+        }, config)
+        .then(res => {
+            const body = isLocal ? res.data : JSON.parse(res.data.body)
+            const opts = body.hits.hits.map((i) => ({
+                claim: i._source.claim,
+                claim_source: i._source.claim_source,
+                label: i._source.label,
+                date: i._source.date,
+            }));
+            this.setState({options: opts, isLoading: false});
+        })
     }
 
     render() {
-        const handleSearch = (query) => {
-            console.log("handleSearch query ", query);
-            this.setState({isLoading: true});
-            axios.post(SEARCH_URI, {
-                "query": {
-                    "match": {
-                      "claim": {
-                        "query": query,
-                        "operator": "or",
-                        "fuzziness": 1
-                      }
-                    }
-                },
-                "sort": ["_score", {"date": "desc"}]
-            }, config)
-            .then(res => {
-                const body = isLocal ? res.data : JSON.parse(res.data.body)
-                const opts = body.hits.hits.map((i) => ({
-                    claim: i._source.claim,
-                    claim_source: i._source.claim_source,
-                    label: i._source.label,
-                    date: i._source.date,
-                }));
-                this.setState({options: opts, isLoading: false});
-            })
-        };
-
         return (
             <div className="sticky-top">
                 <AsyncTypeahead
@@ -76,8 +75,8 @@ class ClaimSearch extends React.Component {
                     isLoading={this.state.isLoading}
                     minLength={3}
                     labelKey={option => `${option.claim}`}
-                    onSearch={handleSearch}
-                    // onInputChange={this.handleInputChange}
+                    onSearch={this.handleSearch}
+                    onInputChange={this.handleInputChange}
                     onChange={this.handleChange}
                     options={this.state.options}
                     placeholder={this.props.placeHolder}
@@ -92,13 +91,6 @@ class ClaimSearch extends React.Component {
                     </div>
                     )}
                 />
-                {/* <br />
-                <hr
-                    style={{
-                        color: "black",
-                        marginTop: "0px"
-                    }}
-                /> */}
             </div>
         );
     }

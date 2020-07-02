@@ -1,15 +1,13 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
 import axios from 'axios';
-import { Card, Tab, Button, Tabs, Spinner, Badge, ListGroup, CardGroup, ProgressBar, OverlayTrigger, Popover } from "react-bootstrap";
-// import { FiInfo } from "react-icons/fi"
-import ClaimSearch from "./ClaimSearch";
-import '../App.css';
+import { withRouter } from "react-router-dom";
+import { Card, Tab, Tabs, ProgressBar, Popover } from "react-bootstrap";
 
-const divStyle = {
-    width: "800px",
-    margin: "0 auto"
-};
+import ClaimSearch from "./ClaimSearch";
+import SimilarClaims from "./SimilarClaims";
+import ResearchPapers from "./ResearchPapers";
+
+import '../App.css';
 
 class Predict extends React.Component {
     constructor(props) {
@@ -22,19 +20,14 @@ class Predict extends React.Component {
     }
 
     componentDidMount() {
-        // const claim = "masks are useful"
         axios.get(`https://wqvhh7uvbc.execute-api.us-east-2.amazonaws.com/search?query=${this.props.location.state.claim}`)
             .then(
                 (result) => {
-                    console.log("result is ", result);
                     this.setState({
                         isLoaded: true,
                         items: result.data
                     });
                 },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
                 (error) => {
                     console.log("error is ", error);
                     this.setState({
@@ -46,13 +39,6 @@ class Predict extends React.Component {
     }
 
     render() {
-        // console.log("Predict this.props ", this.props);
-        // console.log("Predict this.state ", this.state);
-
-        // const abstractStyle = {
-        //     maxWidth: "100%"
-        // };
-
         const progressBarPercentage = 80;
         // const rating = "True";
         const rating = "False";
@@ -63,64 +49,15 @@ class Predict extends React.Component {
             variant = "danger"
         }
 
-        const items = this.state.isLoaded ? this.state.items.map((item, key) => {
-            return (
-                <div key={item.id}>
-                    <br />
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>
-                                {item.fields.title ? item.fields.title.replace( /(<([^>]+)>)/ig, '') : ""}
-                            </Card.Title>
-                            {/* <span class="d-inline-block text-truncate" style={abstractStyle}>
-                                {item.fields.abstract.replace( /(<([^>]+)>)/ig, '')}
-                            </span> */}
-                            <Card.Text>
-                                <b>Absract: </b> 
-                                {item.fields.abstract ? item.fields.abstract.replace( /(<([^>]+)>)/ig, '').substring(0,500) + "..." : ""}
-                            </Card.Text>
-                            <Card.Text>
-                                <b>Keywords: </b>
-                                {item.fields.keywords_ml ? item.fields.keywords_ml.slice(0,5).map( keyword =>
-                                    <span>
-                                        <Badge variant="info" key={`${keyword}`}>
-                                            {keyword}
-                                        </Badge>{' '}
-                                    </span>
-                                ) : ""}
-                            </Card.Text>
-                            <Card.Text>
-                                <b>Categories: </b>
-                                {item.fields.tags ? item.fields.tags.map( tag =>
-                                    <span>
-                                        <Badge variant="secondary" key={`${tag}`}>
-                                            {tag}
-                                        </Badge>{' '}
-                                    </span>
-                                ) : ""}
-                            </Card.Text>
-                            <Button variant="primary" href={item.fields.link} target="__blank" size="sm">Link to Paper</Button>
-                        </Card.Body>
-                    </Card>
-                </div>
-        )}): (
-            <div>
-                <br />
-                <Spinner animation="border" variant="secondary">
-                    <span className="sr-only">Loading...</span>
-                </Spinner>
-            </div>
-        );
-
-        const popover = (
-            <Popover id="popover-basic">
-                <Popover.Title as="h3">Popover right</Popover.Title>
-                <Popover.Content>
-                    And here's some <strong>amazing</strong> content. It's very engaging.
-                    right?
-                </Popover.Content>
-            </Popover>
-        );
+        // const popover = (
+        //     <Popover id="popover-basic">
+        //         <Popover.Title as="h3">Popover right</Popover.Title>
+        //         <Popover.Content>
+        //             And here's some <strong>amazing</strong> content. It's very engaging.
+        //             right?
+        //         </Popover.Content>
+        //     </Popover>
+        // );
 
         return (
             <div>
@@ -154,42 +91,17 @@ class Predict extends React.Component {
                         <br />
                     </Card.Body>
                 </Card>
-                {/* <h4>Claim</h4>
-                <ListGroup variant="flush">
-                    <ListGroup.Item>{this.props.location.state.claim}</ListGroup.Item>
-                </ListGroup>
-                <h4>Our Verdict</h4>
-                <ListGroup variant="flush">
-                    <ListGroup.Item>{"True"}</ListGroup.Item>
-                </ListGroup>
-                <CardGroup>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>Claim</Card.Title>
-                            <Card.Text>
-                                {this.props.location.state.claim}
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>Our Verdict</Card.Title>
-                            <Card.Text>
-                                {"Partly True"}
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                </CardGroup> */}
                 <br />
-                <Tabs id="list-research-papers" defaultActiveKey="first" className="myClass">
+                <Tabs transition={false} id="list-research-papers" defaultActiveKey="first">
                     <Tab eventKey="first" title="Relevant Research Papers">
-                        {items}
+                        <ResearchPapers
+                            isLoaded={this.state.isLoaded}
+                            items={this.state.items}
+                        />
                     </Tab>
                     <Tab eventKey="second" title="Similar Claims">
                         <br />
-                        <Card>
-                            <Card.Body>List of Similar Claims</Card.Body>
-                        </Card>
+                        <SimilarClaims />
                     </Tab>
                 </Tabs>
             </div>
