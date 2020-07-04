@@ -2,9 +2,13 @@ import React from "react";
 import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
-const isLocal = process.env.IS_LOCAL ?? false;
+require('dotenv').config()
+
+let isLocal = process.env.IS_LOCAL ?? false;
 let SEARCH_URI = ''
 let config = {};
+
+isLocal = true;
 
 if (isLocal) {
   const HOST = process.env.ES_HOST ?? 'http://localhost:9200/';
@@ -37,11 +41,16 @@ class ClaimSearch extends React.Component {
     }
 
     handleChange(selected) {
-        this.props.onSelectedValue(selected);    
+        // console.log("handle change selected ", selected);
+        if(this.props.searchAgain === true) {
+            this.props.onSelectedValue(selected, true);
+        } else {
+            this.props.onSelectedValue(selected, false);
+        }
     }
 
     handleSearch = (query) => {
-        console.log("handleSearch query ", query);
+        // console.log("handleSearch query ", query);
         this.setState({isLoading: true});
         axios.post(SEARCH_URI, {
             "query": {
@@ -57,11 +66,14 @@ class ClaimSearch extends React.Component {
         }, config)
         .then(res => {
             const body = isLocal ? res.data : JSON.parse(res.data.body)
+            // console.log("body is ", body);
             const opts = body.hits.hits.map((i) => ({
                 claim: i._source.claim,
                 claim_source: i._source.claim_source,
                 label: i._source.label,
                 date: i._source.date,
+                explanation: i._source.explanation,
+                clean_claim: i._source.clean_claim,
             }));
             this.setState({options: opts, isLoading: false});
         })
@@ -83,11 +95,11 @@ class ClaimSearch extends React.Component {
                     filterBy={(option, props) => option}
                     renderMenuItemChildren={(option, props) => (
                     <div>
-                        <span>{option.label}</span>
-                        <span>{" | "}</span>
+                        {/* <span>{option.label}</span>
+                        <span>{" | "}</span> */}
                         <span>{option.claim}</span>
-                        <span>{" | "}</span>
-                        <span>{option.date}</span>
+                        {/* <span>{" | "}</span>
+                        <span>{option.date}</span> */}
                     </div>
                     )}
                 />

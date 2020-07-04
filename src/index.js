@@ -4,9 +4,12 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 
 // Import as a module in your JS
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+
+require('dotenv').config()
 
 ReactDOM.render(
   <React.StrictMode>

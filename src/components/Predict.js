@@ -1,8 +1,9 @@
 import React from "react";
 import axios from 'axios';
 import { withRouter } from "react-router-dom";
-import { Card, Tab, Tabs, ProgressBar, Popover } from "react-bootstrap";
+import { Card, Tab, Tabs, ProgressBar, Popover, Row, Col } from "react-bootstrap";
 
+import Rating from "./Rating";
 import ClaimSearch from "./ClaimSearch";
 import SimilarClaims from "./SimilarClaims";
 import ResearchPapers from "./ResearchPapers";
@@ -17,10 +18,18 @@ class Predict extends React.Component {
             isLoaded: false,
             items: []
         };
+        this.handleChangeValue = this.handleChangeValue.bind(this);
+        this.handlePaperSearch = this.handlePaperSearch.bind(this);
+        this.handleSelectedValue = this.handleSelectedValue.bind(this);
+        this.myRef = React.createRef();
     }
 
     componentDidMount() {
-        axios.get(`https://wqvhh7uvbc.execute-api.us-east-2.amazonaws.com/search?query=${this.props.location.state.claim}`)
+        this.handlePaperSearch(this.props.location.state.claim);
+    }
+
+    handlePaperSearch(claim) {
+        axios.get(`https://wqvhh7uvbc.execute-api.us-east-2.amazonaws.com/search?query=${claim}`)
             .then(
                 (result) => {
                     this.setState({
@@ -36,33 +45,53 @@ class Predict extends React.Component {
                     });
                 }
             )
+            .catch(error => {
+                console.log(error.response);
+                this.setState({
+                    isLoaded: true,
+                    error
+                });
+            });
+    }
+
+    handleChangeValue(val) {
+        this.myRef = val;
+    }
+
+    handleSelectedValue(val, searchAgain) {
+        if (searchAgain === true) {
+            this.setState({ isLoaded: false, items: [] });
+            this.handlePaperSearch(val[0].claim);
+        }
+
+        this.setState({ value: val[0].claim, validatedClaim: true });
+        this.props.history.push({
+            pathname: '/predict',
+            state: { result: val, claim: val[0].claim, validatedClaim: true }
+        })
     }
 
     render() {
-        const progressBarPercentage = 80;
-        // const rating = "True";
-        const rating = "False";
-        let variant;
-        if (rating === "True") {
-            variant = "success"
-        } else {
-            variant = "danger"
-        }
+        /*
+            1. If claim is already fact-checked,
+                - mention that
+                - show explanation
+                - show date0
+                - show fact check URL
+            2. If claim is not a pre-checked claim,
+                - run the prediction algorithm endpoint
+        */
 
-        // const popover = (
-        //     <Popover id="popover-basic">
-        //         <Popover.Title as="h3">Popover right</Popover.Title>
-        //         <Popover.Content>
-        //             And here's some <strong>amazing</strong> content. It's very engaging.
-        //             right?
-        //         </Popover.Content>
-        //     </Popover>
-        // );
+        console.log("render again, ", this.state);
+
+        const { validatedClaim, result } = this.props.location.state;
 
         return (
             <div>
                 <ClaimSearch 
-                    onChangeValue={this.handleChangeValue} 
+                    onSelectedValue={this.handleSelectedValue}                 
+                    onChangeValue={this.handleChangeValue}
+                    searchAgain={true}
                     placeHolder={"Search for another claim"}
                 />
                 <br />
@@ -73,30 +102,14 @@ class Predict extends React.Component {
                     </Card.Body>
                 </Card>
                 <br />
-                <Card>
-                    <Card.Header>Our Rating</Card.Header>
-                    <Card.Body>
-                        <Card.Title>
-                            {rating}
-                            {/* {' '} */}
-                            {/* <OverlayTrigger trigger="click" placement="right" overlay={popover}>
-                                <Button variant="info" size="sm"><FiInfo /></Button>
-                            </OverlayTrigger> */}
-                        </Card.Title>
-                        <ProgressBar 
-                            now={progressBarPercentage} 
-                            label={`${progressBarPercentage}% ${rating}`} 
-                            variant={variant}
-                        />
-                        <br />
-                    </Card.Body>
-                </Card>
+                <Rating validatedClaim={validatedClaim} result={result} />
                 <br />
                 <Tabs transition={false} id="list-research-papers" defaultActiveKey="first">
                     <Tab eventKey="first" title="Relevant Research Papers">
                         <ResearchPapers
                             isLoaded={this.state.isLoaded}
                             items={this.state.items}
+                            error={this.state.error}
                         />
                     </Tab>
                     <Tab eventKey="second" title="Similar Claims">

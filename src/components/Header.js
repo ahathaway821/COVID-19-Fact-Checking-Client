@@ -37,32 +37,10 @@ const divStyle = {
 
 class Header extends React.Component {
     render() {
-        // return (
-        //     <div style={divStyle}>
-        //         <Styles>
-        //             <Navbar expand="lg" bg="white">
-        //                 <Navbar.Brand href="/">CovidFact</Navbar.Brand>
-        //                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        //                 <Navbar.Collapse id="basic-navbar-nav">
-        //                     <Nav className="ml-auto">
-        //                         <Nav.Item><Nav.Link href="/about">About Us</Nav.Link></Nav.Item>
-        //                         <Nav.Item><Nav.Link href="/data">Our Data</Nav.Link></Nav.Item>
-        //                     </Nav>
-        //                 </Navbar.Collapse>
-        //             </Navbar>
-        //         </Styles>
-        //         <hr
-        //             style={{
-        //                 color: "black",
-        //                 marginTop: "0px"
-        //             }}
-        //         />
-        //     </div>
-        // );
         return (
-            <div>
-                <Styles2>
-                    <Navbar expand="lg" bg="dark" sticky="top">
+            <div style={divStyle}>
+                <Styles>
+                    <Navbar expand="lg" bg="white">
                         <Navbar.Brand href="/">CovidFact</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
@@ -72,7 +50,7 @@ class Header extends React.Component {
                             </Nav>
                         </Navbar.Collapse>
                     </Navbar>
-                </Styles2>
+                </Styles>
                 <hr
                     style={{
                         color: "black",
@@ -81,6 +59,28 @@ class Header extends React.Component {
                 />
             </div>
         );
+        // return (
+        //     <div>
+        //         <Styles2>
+        //             <Navbar expand="lg" bg="dark" sticky="top">
+        //                 <Navbar.Brand href="/">CovidFact</Navbar.Brand>
+        //                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        //                 <Navbar.Collapse id="basic-navbar-nav">
+        //                     <Nav className="ml-auto">
+        //                         <Nav.Item><Nav.Link href="/about">About Us</Nav.Link></Nav.Item>
+        //                         <Nav.Item><Nav.Link href="/data">Our Data</Nav.Link></Nav.Item>
+        //                     </Nav>
+        //                 </Navbar.Collapse>
+        //             </Navbar>
+        //         </Styles2>
+        //         <hr
+        //             style={{
+        //                 color: "black",
+        //                 marginTop: "0px"
+        //             }}
+        //         />
+        //     </div>
+        // );
     }
 }
 

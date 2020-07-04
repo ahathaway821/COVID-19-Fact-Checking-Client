@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router-dom";
+import { Row, Col, Image, Button } from "react-bootstrap";
 
 import ClaimSearch from "./ClaimSearch";
 import PopularClaims from "./PopularClaims";
@@ -35,30 +35,32 @@ class Home extends React.Component {
         this.setState({ value: val[0].claim, validatedClaim: true });
         this.props.history.push({
             pathname: '/predict',
-            state: { claim: val[0].claim, validatedClaim: true }
+            state: { result: val, claim: val[0].claim, validatedClaim: true }
         })
     }
 
     handlePredict() {
         this.props.history.push({
             pathname: '/predict',
-            state: { claim: this.state.value === "" ? this.myRef : this.state.value, validatedClaim: false }
+            state: { 
+                claim: this.state.value === "" ? this.myRef : this.state.value, 
+                validatedClaim: false
+            }
         })
     }
 
     render() {
         return (
             <div>
-                <img 
-                    src={logo} 
-                    alt={"CovidFact"} 
-                    style={imageStyle}
-                    width={400}
-                    height={400}
-                />
+                <Row className="justify-content-md-center">
+                    <Col md="auto">
+                        <Image src={logo} width={350} height={350} rounded />
+                    </Col>
+                </Row>
                 <ClaimSearch 
                     onSelectedValue={this.handleSelectedValue} 
                     onChangeValue={this.handleChangeValue}
+                    searchAgain={false}
                     placeHolder={"Search for a COVID-19 Fact"}
                 />
                 <br />
