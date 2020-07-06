@@ -8,7 +8,7 @@ let isLocal = process.env.IS_LOCAL ?? false;
 let SEARCH_URI = ''
 let config = {};
 
-isLocal = true;
+//isLocal = true;
 
 if (isLocal) {
   const HOST = process.env.ES_HOST ?? 'http://localhost:9200/';
