@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-class OurData extends React.Component {
+class Data extends React.Component {
     render() {
         return (
             <div>
@@ -15,4 +15,4 @@ class OurData extends React.Component {
     }
 }
 
-export default withRouter(OurData);
+export default withRouter(Data);

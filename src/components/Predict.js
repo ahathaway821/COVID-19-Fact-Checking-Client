@@ -15,7 +15,7 @@ class Predict extends React.Component {
         super(props);
         this.state = {
             error: null,
-            isLoaded: false,
+            isPaperLoaded: false,
             items: []
         };
         this.handleChangeValue = this.handleChangeValue.bind(this);
@@ -33,14 +33,14 @@ class Predict extends React.Component {
             .then(
                 (result) => {
                     this.setState({
-                        isLoaded: true,
+                        isPaperLoaded: true,
                         items: result.data
                     });
                 },
                 (error) => {
                     console.log("error is ", error);
                     this.setState({
-                        isLoaded: true,
+                        isPaperLoaded: true,
                         error
                     });
                 }
@@ -48,7 +48,7 @@ class Predict extends React.Component {
             .catch(error => {
                 console.log(error.response);
                 this.setState({
-                    isLoaded: true,
+                    isPaperLoaded: true,
                     error
                 });
             });
@@ -60,7 +60,7 @@ class Predict extends React.Component {
 
     handleSelectedValue(val, searchAgain) {
         if (searchAgain === true) {
-            this.setState({ isLoaded: false, items: [] });
+            this.setState({ isPaperLoaded: false, items: [] });
             this.handlePaperSearch(val[0].claim);
         }
 
@@ -107,14 +107,14 @@ class Predict extends React.Component {
                 <Tabs transition={false} id="list-research-papers" defaultActiveKey="first">
                     <Tab eventKey="first" title="Relevant Research Papers">
                         <ResearchPapers
-                            isLoaded={this.state.isLoaded}
+                            isLoaded={this.state.isPaperLoaded}
                             items={this.state.items}
                             error={this.state.error}
                         />
                     </Tab>
-                    <Tab eventKey="second" title="Similar Claims">
+                    <Tab eventKey="second" title="Similar Claims (ordered by closeness)">
                         <br />
-                        <SimilarClaims />
+                        <SimilarClaims claim={this.props.location.state.claim} />
                     </Tab>
                 </Tabs>
             </div>

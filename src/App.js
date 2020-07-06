@@ -8,12 +8,13 @@ import {
 import {
   About,
   Header,
-  OurData,
+  Data,
   Contact,
   Layout,
   Home,
   Predict,
   NoMatch,
+  Model
 } from "./components";
 import './App.css';
 
@@ -27,7 +28,8 @@ class App extends Component {
 					<Switch>
 						<Route exact path="/" component={Home} />
 						<Route path="/about" component={About} />
-						<Route path="/data" component={OurData} />
+						<Route path="/data" component={Data} />
+						<Route path="/model" component={Model} />
 						<Route path="/contact" component={Contact} />
 						<Route path="/predict" component={Predict} />
 						<Route component={NoMatch} />
