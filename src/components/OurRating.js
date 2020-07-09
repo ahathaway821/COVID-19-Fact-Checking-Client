@@ -86,9 +86,11 @@ class OurRating extends React.Component {
         return  (
             <div>
                 <br />
-                <Spinner animation="border" variant="secondary">
-                    <span className="sr-only">Loading...</span>
-                </Spinner>
+                <center>
+                    <Spinner animation="border" variant="secondary">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                </center>
             </div>
         );
     }    

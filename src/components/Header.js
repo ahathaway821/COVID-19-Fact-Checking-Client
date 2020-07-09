@@ -16,19 +16,19 @@ const Styles = styled.div`
     }
 `;
 
-const Styles2 = styled.div`
-    .navbar {
-        background-color: #222;
-    }
+// const Styles2 = styled.div`
+//     .navbar {
+//         background-color: #222;
+//     }
 
-    .navbar-brand, .navbar-nav .nav-link {
-        color: white;
+//     .navbar-brand, .navbar-nav .nav-link {
+//         color: white;
 
-        &:hover {
-            color: white;
-        }
-    }
-`;
+//         &:hover {
+//             color: white;
+//         }
+//     }
+// `;
 
 const divStyle = {
     width: "1200px",

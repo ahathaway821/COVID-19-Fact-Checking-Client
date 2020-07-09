@@ -1,7 +1,8 @@
 import React from "react";
 import axios from 'axios';
-import { Card, Spinner, Tabs, Tab, Badge } from "react-bootstrap";
+import { Card, Spinner, Badge } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
+import ShowMoreText from 'react-show-more-text';
 
 class SimilarClaims extends React.Component {
     constructor(props) {
@@ -31,7 +32,8 @@ class SimilarClaims extends React.Component {
             items: [],
             error: null
         });
-
+        
+        // eslint-disable-next-line no-useless-escape
         const s1 = claim.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
         const cleanClaim = s1.replace(/\s{2,}/g," ");
 
@@ -64,9 +66,10 @@ class SimilarClaims extends React.Component {
         let similarClaims;
         if (this.state.error !== null) {
             similarClaims = (
-                <p>
-                    Sorry, there was an error fetching the similar claims. Please refresh the page to try again.
-                </p> 
+                <div>
+                    <br/>
+                    <p> Sorry, there was an error fetching the results. Please refresh the page to try again. </p>
+                </div>
             )
         } else {
             if (this.state.isLoaded) {
@@ -87,17 +90,39 @@ class SimilarClaims extends React.Component {
                 similarClaims = this.state.items.similar_claims.slice(1,).map((item, key) => {
                     return (
                         <div key={item.claim}>
-                            <br />
                             <Card>
                                 <Card.Body>
                                     <Card.Title>
-                                        {item.claim}
+                                        <ShowMoreText
+                                            lines={3}
+                                            more='Show more'
+                                            less='Show less'
+                                            anchorClass=''
+                                            onClick={this.executeOnClick}
+                                            expanded={false}
+                                        >
+                                            {item.claim}
+                                        </ShowMoreText>
                                     </Card.Title>
-                                    <Card.Text>
-                                        <b>Explanation</b> : {item.explanation}
-                                    </Card.Text>
+                                    <b>Explanation</b> : 
+                                    <ShowMoreText
+                                        lines={3}
+                                        more='Show more'
+                                        less='Show less'
+                                        anchorClass=''
+                                        onClick={this.executeOnClick}
+                                        expanded={false}
+                                    >
+                                        {item.explanation}
+                                    </ShowMoreText>
                                     <Card.Text>
                                         <b>Fact Check Date</b> : {item.date}
+                                    </Card.Text>
+                                    <Card.Text>
+                                        <b>Fact Check URL</b> : <a href={item.fact_check_url}>{item.fact_check_url}</a>
+                                    </Card.Text>
+                                    <Card.Text>
+                                        <b>Fact Checked by</b> : {item.source}
                                     </Card.Text>
                                     <Card.Text>
                                         <b>Source of Claim</b> : {item.claim_source}
@@ -116,15 +141,18 @@ class SimilarClaims extends React.Component {
                                     </Card.Text>
                                 </Card.Body>
                             </Card>
+                            <br />
                         </div>
                 )})
             } else {
                 similarClaims = (
                     <div>
                         <br />
-                        <Spinner animation="border" variant="secondary">
-                            <span className="sr-only">Loading...</span>
-                        </Spinner>
+                        <center>
+                            <Spinner animation="border" variant="secondary">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>
+                        </center>
                     </div>
                 );
             }

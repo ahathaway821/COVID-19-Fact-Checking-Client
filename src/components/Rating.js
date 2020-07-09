@@ -1,10 +1,10 @@
 import React from "react";
-import { ListGroup, Row, Col, Card, ProgressBar, Form, Button, Modal } from "react-bootstrap";
+import { Row, Col, Card, ProgressBar, Form, Button, Modal } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
-import { HandThumbsUp, HandThumbsDown, CheckCircleFill, XCircleFill } from 'react-bootstrap-icons';
-import { FaBeer } from 'react-icons/fa';
+// import { HandThumbsUp, HandThumbsDown, CheckCircleFill, XCircleFill } from 'react-bootstrap-icons';
 import RangeSlider from 'react-bootstrap-range-slider';
 import OurRating from './OurRating';
+import ReactSpeedometer from "react-d3-speedometer"
 
 class Rating extends React.Component {
     constructor(props) {
@@ -41,39 +41,74 @@ class Rating extends React.Component {
         
         // If claim is pre-checked or not
         if (this.props.isValidatedClaim === true) {
-            const { claim_source, clean_claim, date, explanation, label } = this.props.claimIndexResult[0];
+            const { claim_source, date, explanation, label } = this.props.claimIndexResult[0];
 
-            let variant;
+            // let variant;
+            let value;
             if (label === "true") {
-                variant = "success"
+                value = 90;
+                // variant = "success"
             } else {
-                variant = "danger"
+                value = 10;
+                // variant = "danger"
             }
 
             return (
                 <div>
                     <Row>
                         <Col>
-                            <Card style={{ height: '10rem' }}>
+                            <Card style={{ height: '18rem' }}>
                                 <Card.Header>
                                     Rating
                                     {/* Add info popover to indicate this was checked by a human */}
                                 </Card.Header>
                                 <Card.Body>
-                                    <Card.Title>
-                                        {label.charAt(0).toUpperCase() + label.slice(1)}
-                                    </Card.Title>
-                                    <ProgressBar 
+                                    {/* <b>{label.charAt(0).toUpperCase() + label.slice(1)} */}
+                                    {/* <ProgressBar 
                                         now={100} 
                                         label={`${100}% ${label}`} 
                                         variant={variant}
-                                    />
+                                    /> */}
+                                    <center>
+                                        <ReactSpeedometer
+                                            width={300}
+                                            minValue={0}
+                                            maxValue={100}
+                                            needleHeightRatio={0.6}
+                                            value={value}
+                                            customSegmentStops={[0, 25, 75, 100]}
+                                            segmentColors={["#dc3545", "#ffc107", "#28a745"]}
+                                            currentValueText="COVIDFact Rating"
+                                            customSegmentLabels={[
+                                            {
+                                                text: "False",
+                                                position: "OUTSIDE",
+                                                color: "#000000",
+                                            },
+                                            {
+                                                text: "Not enough evidence",
+                                                position: "OUTSIDE",
+                                                color: "#000000",
+                                            },
+                                            {
+                                                text: "True",
+                                                position: "OUTSIDE",
+                                                color: "#000000",
+                                            },
+                                            ]}
+                                            ringWidth={45}
+                                            needleTransitionDuration={3333}
+                                            needleTransition="easeElastic"
+                                            needleColor={"#a7ff83"}
+                                            textColor={"#000000"}
+                                        />
+                                    </center>
                                     <br />
                                 </Card.Body>
                             </Card>
                         </Col>
                         <Col>
-                            <Card style={{ height: '10rem' }}>
+                            <Card style={{ height: '18rem' }}>
                                 <Card.Header>Feedback</Card.Header>
                                 <Card.Body>
                                     <Card.Text>
@@ -96,10 +131,8 @@ class Rating extends React.Component {
                                                 <Modal.Title>Glad you found CovidFact helpful</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                                <p>
-                                                    Thanks for the positive feedback. <br />
-                                                    Please answer a couple of questions below to tell us what you liked about our product
-                                                </p>
+                                                Thanks for the positive feedback. <br />
+                                                Please answer a couple of questions below to tell us what you liked about our product
                                                 <hr />
                                                 <Form>
                                                     <Form.Group controlId="formBasicRange">
@@ -188,14 +221,13 @@ class Rating extends React.Component {
                                 Source of Claim
                             </Card.Title>
                             <Card.Text>
-                                {claim_source ? claim_source : "-"}
+                                {claim_source ? <a href={claim_source}>{claim_source}</a> : "-"}
                             </Card.Text>
                         </Card.Body>
                     </Card>
                 </div>      
             );
         } else {
-
             return (
                 <div>
                     <Row>

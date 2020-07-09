@@ -2,6 +2,7 @@ import React from "react";
 import axios from 'axios';
 import { Card, Badge, Button, Spinner } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
+import ShowMoreText from 'react-show-more-text';
 
 class ResearchPapers extends React.Component {
 
@@ -68,10 +69,17 @@ class ResearchPapers extends React.Component {
                                 {/* <span class="d-inline-block text-truncate" style={abstractStyle}>
                                     {item.fields.abstract.replace( /(<([^>]+)>)/ig, '')}
                                 </span> */}
-                                <Card.Text>
-                                    <b>Absract: </b> 
-                                    {item.fields.abstract ? item.fields.abstract.replace( /(<([^>]+)>)/ig, '').substring(0,500) + "..." : ""}
-                                </Card.Text>
+                                <b>Absract: </b>
+                                <ShowMoreText
+                                    lines={3}
+                                    more='Show more'
+                                    less='Show less'
+                                    anchorClass=''
+                                    onClick={this.executeOnClick}
+                                    expanded={false}
+                                >
+                                    {item.fields.abstract ? item.fields.abstract.replace( /(<([^>]+)>)/ig, '') : ""}
+                                </ShowMoreText>
                                 <Card.Text>
                                     <b>Keywords: </b>
                                     {item.fields.keywords_ml ? item.fields.keywords_ml.slice(0,5).map( keyword =>
@@ -99,9 +107,11 @@ class ResearchPapers extends React.Component {
             )}): (
                 <div>
                     <br />
-                    <Spinner animation="border" variant="secondary">
-                        <span className="sr-only">Loading...</span>
-                    </Spinner>
+                    <center>
+                        <Spinner animation="border" variant="secondary">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                    </center>
                 </div>
             );
         }

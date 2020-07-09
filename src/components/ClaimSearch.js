@@ -46,7 +46,6 @@ class ClaimSearch extends React.Component {
     }
 
     handleSearch = (query) => {
-        // console.log("handleSearch query ", query);
         this.setState({isLoading: true});
         axios.post(SEARCH_URI, {
             "query": {
@@ -62,7 +61,6 @@ class ClaimSearch extends React.Component {
         }, config)
         .then(res => {
             const body = isLocal ? res.data : JSON.parse(res.data.body)
-            // console.log("body is ", body);
             const opts = body.hits.hits.map((i) => ({
                 claim: i._source.claim,
                 claim_source: i._source.claim_source,
@@ -91,11 +89,7 @@ class ClaimSearch extends React.Component {
                     filterBy={(option, props) => option}
                     renderMenuItemChildren={(option, props) => (
                     <div>
-                        {/* <span>{option.label}</span>
-                        <span>{" | "}</span> */}
                         <span>{option.claim}</span>
-                        {/* <span>{" | "}</span>
-                        <span>{option.date}</span> */}
                     </div>
                     )}
                 />

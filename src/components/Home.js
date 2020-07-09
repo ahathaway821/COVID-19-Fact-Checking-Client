@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { Row, Col, Image, Button } from "react-bootstrap";
+import { Row, Col, Image, Button, Popover } from "react-bootstrap";
 
 import ClaimSearch from "./ClaimSearch";
 import PopularClaims from "./PopularClaims";
@@ -8,11 +8,11 @@ import PopularClaims from "./PopularClaims";
 import logo from "../img/logo2.png";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
-const imageStyle = {
-    display: "block",
-    marginLeft: "auto",
-    marginRight: "auto"
-};
+// const imageStyle = {
+//     display: "block",
+//     marginLeft: "auto",
+//     marginRight: "auto"
+// };
 
 class Home extends React.Component {
     constructor(props) {
@@ -20,6 +20,7 @@ class Home extends React.Component {
         this.state = {
             value: '',
             isValidatedClaim: false,
+            isButtonDisabled: true,
         }
         this.handlePredict = this.handlePredict.bind(this);
         this.handleChangeValue = this.handleChangeValue.bind(this);
@@ -40,13 +41,15 @@ class Home extends React.Component {
     }
 
     handlePredict() {
-        this.props.history.push({
-            pathname: '/predict',
-            state: { 
-                claim: this.myRef,
-                isValidatedClaim: false,
-            }
-        })
+        if(this.myRef.current !== null) {
+            this.props.history.push({
+                pathname: '/predict',
+                state: { 
+                    claim: this.myRef,
+                    isValidatedClaim: false,
+                }
+            })
+        }
     }
 
     render() {
