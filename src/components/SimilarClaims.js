@@ -14,9 +14,27 @@ class SimilarClaims extends React.Component {
     }
 
     componentDidMount() {
-        const s1 = this.props.claim.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+        this.getSimilarClaims(this.props.claim);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.claim !== this.props.claim) {
+            this.getSimilarClaims(this.props.claim);
+        }
+    }
+
+    getSimilarClaims(claim) {
+        if (!claim) return;
+
+        this.setState({
+            isLoaded: false,
+            items: [],
+            error: null
+        });
+
+        const s1 = claim.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
         const cleanClaim = s1.replace(/\s{2,}/g," ");
-        console.log("clean claim is ", cleanClaim);
+
         axios.get(`https://88rrgid4rl.execute-api.us-west-2.amazonaws.com/similar-claims?claim=${cleanClaim}`)
             .then(
                 (result) => {
@@ -53,7 +71,6 @@ class SimilarClaims extends React.Component {
         } else {
             if (this.state.isLoaded) {
                 this.state.items.similar_claims.sort((a, b) => (a.cosine_dist > b.cosine_dist) ? 1 : -1)
-                console.log("this.state.items.similar_claims ", this.state.items.similar_claims);
                 /*
                     claim: " Only certain face masks are effective and others, such as cloth masks, are not."
                     claim_source: " Facebook posts"

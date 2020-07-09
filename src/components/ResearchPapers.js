@@ -1,19 +1,62 @@
 import React from "react";
+import axios from 'axios';
 import { Card, Badge, Button, Spinner } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 
 class ResearchPapers extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoaded: false,
+            items: [],
+            error: null
+        };
+    }
+
+    componentDidMount() {
+        this.getResearchPapers(this.props.claim);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.claim !== this.props.claim) {
+            this.getResearchPapers(this.props.claim);
+        }
+    }
+
+    getResearchPapers(claim) {
+        this.setState({ isLoaded: false, items: [], error: null});
+        axios.get(`https://wqvhh7uvbc.execute-api.us-east-2.amazonaws.com/search?query=${claim}`)
+        .then(
+            (result) => {
+                this.setState({
+                    isLoaded: true,
+                    items: result.data
+                });
+            },
+        )
+        .catch(error => {
+            console.log(error.response);
+            this.setState({
+                isLoaded: true,
+                error: error
+            });
+        });
+        
+
+    }
+
     render() {
         let items;
-        
-        if (this.props.error !== null) {
+        if (this.state.error !== null) {
             items = (
-                <p>
-                    Sorry, there was an error fetching the results. Please refresh the page to try again.
-                </p> 
+                <div>
+                    <br/>
+                    <p> Sorry, there was an error fetching the results. Please refresh the page to try again. </p>
+                </div>
             )
         } else {
-            items = this.props.isLoaded ? this.props.items.map((item, key) => {
+            items = this.state.isLoaded ? this.state.items.map((item, key) => {
                 return (
                     <div key={item.id}>
                         <br />

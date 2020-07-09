@@ -41,12 +41,8 @@ class ClaimSearch extends React.Component {
     }
 
     handleChange(selected) {
-        // console.log("handle change selected ", selected);
-        if(this.props.searchAgain === true) {
-            this.props.onSelectedValue(selected, true);
-        } else {
-            this.props.onSelectedValue(selected, false);
-        }
+        this.props.onSelectedValue(selected);
+
     }
 
     handleSearch = (query) => {

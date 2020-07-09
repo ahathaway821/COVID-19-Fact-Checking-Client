@@ -24,7 +24,7 @@ class PopularClaims extends React.Component {
             pathname: '/predict',
             state: { 
                 claim: claim,
-                validatedClaim: false
+                isValidatedClaim: false
             }
         })
     }
