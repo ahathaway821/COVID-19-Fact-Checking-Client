@@ -1,7 +1,6 @@
 import React from "react";
-import axios from 'axios';
 import { withRouter } from "react-router-dom";
-import { Card, Tab, Tabs, ProgressBar, Popover, Row, Col } from "react-bootstrap";
+import { Card, Tab, Tabs, Container, ProgressBar, Popover, Row, Col, Button } from "react-bootstrap";
 
 import Rating from "./Rating";
 import ClaimSearch from "./ClaimSearch";
@@ -15,59 +14,41 @@ class Predict extends React.Component {
         super(props);
         this.state = {
             error: null,
-            isPaperLoaded: false,
-            items: []
+            claim: props.location.state.claim,
+            isValidatedClaim: props.location.state.isValidatedClaim,
+            claimIndexResult: props.location.state.claimIndexResult
         };
         this.handleChangeValue = this.handleChangeValue.bind(this);
-        this.handlePaperSearch = this.handlePaperSearch.bind(this);
         this.handleSelectedValue = this.handleSelectedValue.bind(this);
+        this.handlePredict = this.handlePredict.bind(this);
         this.myRef = React.createRef();
-    }
-
-    componentDidMount() {
-        this.handlePaperSearch(this.props.location.state.claim);
-    }
-
-    handlePaperSearch(claim) {
-        axios.get(`https://wqvhh7uvbc.execute-api.us-east-2.amazonaws.com/search?query=${claim}`)
-            .then(
-                (result) => {
-                    this.setState({
-                        isPaperLoaded: true,
-                        items: result.data
-                    });
-                },
-                (error) => {
-                    console.log("error is ", error);
-                    this.setState({
-                        isPaperLoaded: true,
-                        error
-                    });
-                }
-            )
-            .catch(error => {
-                console.log(error.response);
-                this.setState({
-                    isPaperLoaded: true,
-                    error
-                });
-            });
     }
 
     handleChangeValue(val) {
         this.myRef = val;
     }
 
-    handleSelectedValue(val, searchAgain) {
-        if (searchAgain === true) {
-            this.setState({ isPaperLoaded: false, items: [] });
-            this.handlePaperSearch(val[0].claim);
+    handleSelectedValue(val) {
+        if (!val[0]) {
+            return;
         }
 
-        this.setState({ value: val[0].claim, validatedClaim: true });
+        this.setState({claimIndexResult: val, claim: val[0].claim, isValidatedClaim: true });
         this.props.history.push({
             pathname: '/predict',
-            state: { result: val, claim: val[0].claim, validatedClaim: true }
+            state: { claimIndexResult: val, claim: val[0].claim, isValidatedClaim: true }
+        })
+    }
+
+    handlePredict() {
+        const newClaim = this.myRef;
+        this.setState({ claim: newClaim, isValidatedClaim: false });
+        this.props.history.push({
+            pathname: '/predict',
+            state: { 
+                claim: newClaim, 
+                isValidatedClaim: false
+            }
         })
     }
 
@@ -82,39 +63,43 @@ class Predict extends React.Component {
                 - run the prediction algorithm endpoint
         */
 
-        console.log("render again, ", this.state);
-
-        const { validatedClaim, result } = this.props.location.state;
-
         return (
             <div>
-                <ClaimSearch 
-                    onSelectedValue={this.handleSelectedValue}                 
-                    onChangeValue={this.handleChangeValue}
-                    searchAgain={true}
-                    placeHolder={"Search for another claim"}
-                />
+                <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                    <Row>
+                        <Col xs={8} md={10}>
+                            <ClaimSearch 
+                                onSelectedValue={this.handleSelectedValue}                 
+                                onChangeValue={this.handleChangeValue}
+                                placeHolder={"Search for another claim"}
+                            />
+                        </Col>
+                        <Col xs={4} md={2}>
+                            <Button variant="secondary" onClick={this.handlePredict}>Predict</Button>
+                        </Col>
+                    </Row>
+                </Container>
                 <br />
                 <Card>
                     <Card.Header>Claim</Card.Header>
                     <Card.Body>
-                        <Card.Title>{this.props.location.state.claim}</Card.Title>
+                        <Card.Title>{this.state.claim}</Card.Title>
                     </Card.Body>
                 </Card>
                 <br />
-                <Rating validatedClaim={validatedClaim} result={result} />
+                <Rating 
+                    claim={this.state.claim} 
+                    isValidatedClaim={this.state.isValidatedClaim} 
+                    claimIndexResult={this.state.claimIndexResult} 
+                />
                 <br />
                 <Tabs transition={false} id="list-research-papers" defaultActiveKey="first">
                     <Tab eventKey="first" title="Relevant Research Papers">
-                        <ResearchPapers
-                            isLoaded={this.state.isPaperLoaded}
-                            items={this.state.items}
-                            error={this.state.error}
-                        />
+                        <ResearchPapers claim={this.state.claim}/>
                     </Tab>
                     <Tab eventKey="second" title="Similar Claims (ordered by closeness)">
                         <br />
-                        <SimilarClaims claim={this.props.location.state.claim} />
+                        <SimilarClaims claim={this.state.claim} />
                     </Tab>
                 </Tabs>
             </div>

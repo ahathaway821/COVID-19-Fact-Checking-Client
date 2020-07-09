@@ -19,7 +19,7 @@ class Home extends React.Component {
         super(props);
         this.state = {
             value: '',
-            validatedClaim: false,
+            isValidatedClaim: false,
         }
         this.handlePredict = this.handlePredict.bind(this);
         this.handleChangeValue = this.handleChangeValue.bind(this);
@@ -32,10 +32,10 @@ class Home extends React.Component {
     }
 
     handleSelectedValue(val) {
-        this.setState({ value: val[0].claim, validatedClaim: true });
+        this.setState({ value: val[0].claim, isValidatedClaim: true });
         this.props.history.push({
             pathname: '/predict',
-            state: { result: val, claim: val[0].claim, validatedClaim: true }
+            state: { claimIndexResult: val, claim: val[0].claim, isValidatedClaim: true }
         })
     }
 
@@ -43,15 +43,15 @@ class Home extends React.Component {
         this.props.history.push({
             pathname: '/predict',
             state: { 
-                claim: this.state.value === "" ? this.myRef : this.state.value, 
-                validatedClaim: false
+                claim: this.myRef,
+                isValidatedClaim: false,
             }
         })
     }
 
     render() {
         return (
-            <div>
+            <div>              
                 <Row className="justify-content-md-center">
                     <Col md="auto">
                         <Image src={logo} width={350} height={350} rounded />
@@ -60,7 +60,6 @@ class Home extends React.Component {
                 <ClaimSearch 
                     onSelectedValue={this.handleSelectedValue} 
                     onChangeValue={this.handleChangeValue}
-                    searchAgain={false}
                     placeHolder={"Search for a COVID-19 Fact"}
                 />
                 <br />

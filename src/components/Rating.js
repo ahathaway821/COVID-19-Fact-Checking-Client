@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { HandThumbsUp, HandThumbsDown, CheckCircleFill, XCircleFill } from 'react-bootstrap-icons';
 import { FaBeer } from 'react-icons/fa';
 import RangeSlider from 'react-bootstrap-range-slider';
+import OurRating from './OurRating';
 
 class Rating extends React.Component {
     constructor(props) {
@@ -35,12 +36,12 @@ class Rating extends React.Component {
     }
 
     render() {
-        // console.log("validatedClaim is ", this.props.validatedClaim);
-        // console.log("result is ", this.props.result);
+        // console.log("validatedClaim is ", this.props.isValidatedClaim);
+        // console.log("result is ", this.props.claimIndexResult);
         
         // If claim is pre-checked or not
-        if (this.props.validatedClaim === true) {
-            const { claim_source, clean_claim, date, explanation, label } = this.props.result[0];
+        if (this.props.isValidatedClaim === true) {
+            const { claim_source, clean_claim, date, explanation, label } = this.props.claimIndexResult[0];
 
             let variant;
             if (label === "true") {
@@ -194,26 +195,12 @@ class Rating extends React.Component {
                 </div>      
             );
         } else {
-            const rating = "True";
-            const progressBarPercentage = 100;
-            const variant = "success";
+
             return (
                 <div>
                     <Row>
                         <Col>
-                            <Card style={{ height: '10rem' }}>
-                            <Card.Header>Our Rating</Card.Header>
-                            <Card.Body>
-                                <Card.Title>
-                                    {rating}
-                                </Card.Title>
-                                <ProgressBar 
-                                    now={progressBarPercentage} 
-                                    label={`${progressBarPercentage}% ${rating}`} 
-                                    variant={variant}
-                                />
-                            </Card.Body>
-                            </Card>
+                            <OurRating claim={this.props.claim}/>
                         </Col>
                         <Col>
                             <Card style={{ height: '10rem' }}>
