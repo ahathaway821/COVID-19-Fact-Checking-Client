@@ -66,9 +66,6 @@ class ResearchPapers extends React.Component {
                                 <Card.Title>
                                     {item.fields.title ? item.fields.title.replace( /(<([^>]+)>)/ig, '') : ""}
                                 </Card.Title>
-                                {/* <span class="d-inline-block text-truncate" style={abstractStyle}>
-                                    {item.fields.abstract.replace( /(<([^>]+)>)/ig, '')}
-                                </span> */}
                                 <b>Absract: </b>
                                 <ShowMoreText
                                     lines={3}
@@ -80,6 +77,7 @@ class ResearchPapers extends React.Component {
                                 >
                                     {item.fields.abstract ? item.fields.abstract.replace( /(<([^>]+)>)/ig, '') : ""}
                                 </ShowMoreText>
+                                <br />
                                 <Card.Text>
                                     <b>Keywords: </b>
                                     {item.fields.keywords_ml ? item.fields.keywords_ml.slice(0,5).map( keyword =>

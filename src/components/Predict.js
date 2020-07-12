@@ -71,68 +71,6 @@ class Predict extends React.Component {
                     </Row>
                 </Container>
                 <br />
-                {/* <Row>
-                    <Col>
-                        <Card style={{ height: '10rem' }}>
-                            <Card.Header>Claim</Card.Header>
-                            <Card.Body>
-                                <Card.Title>{this.state.claim}</Card.Title>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col>
-                        <Card style={{ height: '10rem' }}>
-                            <Card.Header>
-                                Rating
-                            </Card.Header>
-                            <Card.Body>
-                                <center>
-                                    <ReactSpeedometer
-                                        width={200}
-                                        minValue={0}
-                                        maxValue={100}
-                                        needleHeightRatio={0.6}
-                                        value={95}
-                                        customSegmentStops={[0, 25, 75, 100]}
-                                        segmentColors={["#dc3545", "#ffc107", "#28a745"]}
-                                        currentValueText="COVIDFact Rating"
-                                        customSegmentLabels={[
-                                        {
-                                            text: "False",
-                                            position: "OUTSIDE",
-                                            color: "#000000",
-                                        },
-                                        {
-                                            text: "Not enough evidence",
-                                            position: "OUTSIDE",
-                                            color: "#000000",
-                                        },
-                                        {
-                                            text: "True",
-                                            position: "OUTSIDE",
-                                            color: "#000000",
-                                        },
-                                        ]}
-                                        ringWidth={20}
-                                        needleTransitionDuration={3333}
-                                        needleTransition="easeElastic"
-                                        needleColor={"#a7ff83"}
-                                        textColor={"#000000"}
-                                        labelFontSize={12}
-                                    />
-                                </center>
-                                <br />
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row> */}
-                <Card>
-                    <Card.Header>Claim</Card.Header>
-                    <Card.Body>
-                        <Card.Title>{this.state.claim}</Card.Title>
-                    </Card.Body>
-                </Card>
-                <br />
                 <Rating 
                     claim={this.state.claim} 
                     isValidatedClaim={this.state.isValidatedClaim} 

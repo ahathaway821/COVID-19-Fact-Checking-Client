@@ -8,12 +8,6 @@ import PopularClaims from "./PopularClaims";
 import logo from "../img/logo2.png";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
-// const imageStyle = {
-//     display: "block",
-//     marginLeft: "auto",
-//     marginRight: "auto"
-// };
-
 class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -25,6 +19,7 @@ class Home extends React.Component {
         this.handlePredict = this.handlePredict.bind(this);
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.handleSelectedValue = this.handleSelectedValue.bind(this);
+        // this.handleEnter = this.handleEnter.bind(this);
         this.myRef = React.createRef();
     }
 
@@ -52,6 +47,19 @@ class Home extends React.Component {
         }
     }
 
+    // handleEnter() {
+    //     if(this.myRef.current !== null) {
+    //         console.log("handle enter ", this.myRef);
+    //         this.props.history.push({
+    //             pathname: '/predict',
+    //             state: { 
+    //                 claim: this.myRef,
+    //                 isValidatedClaim: false,
+    //             }
+    //         })
+    //     }
+    // }
+
     render() {
         return (
             <div>              
@@ -63,6 +71,7 @@ class Home extends React.Component {
                 <ClaimSearch 
                     onSelectedValue={this.handleSelectedValue} 
                     onChangeValue={this.handleChangeValue}
+                    // onEnter={this.handleEnter}
                     placeHolder={"Search for a COVID-19 Fact"}
                 />
                 <br />

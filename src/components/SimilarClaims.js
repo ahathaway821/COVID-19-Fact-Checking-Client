@@ -74,19 +74,6 @@ class SimilarClaims extends React.Component {
         } else {
             if (this.state.isLoaded) {
                 this.state.items.similar_claims.sort((a, b) => (a.cosine_dist > b.cosine_dist) ? 1 : -1)
-                /*
-                    claim: " Only certain face masks are effective and others, such as cloth masks, are not."
-                    claim_source: " Facebook posts"
-                    clean_claim: "Only certain face masks are effective and others such as cloth masks are not"
-                    cosine_dist: 0.27986446308054846
-                    date: "2020-04-02"
-                    explanation: " N95 masks offer the most protection from viral particles, health officials say, but they should be reserved for health care workers who are in direct contact with infected patients. Mask effectiveness varies, but claims that cloth masks provide 0% protection aren’t accurate. More studies need to be done to examine variables such as the material and fit of the mask, the wearer, and the environment. Health officials largely agree that wearing any kind of face mask, coupled with social distancing and frequent hand-washing, is more protective than going unmasked."
-                    fact_check_url: "https://www.politifact.com/factchecks/2020/may/18/facebook-posts/face-masks-including-homemade-ones-are-effective-c/"
-                    label: "false"
-                    sentiments: -0.30000001192092896
-                    source: " PolitiFact"
-                    source_label: "false"
-                */
                 similarClaims = this.state.items.similar_claims.slice(1,).map((item, key) => {
                     return (
                         <div key={item.claim}>
@@ -115,6 +102,7 @@ class SimilarClaims extends React.Component {
                                     >
                                         {item.explanation}
                                     </ShowMoreText>
+                                    <br />
                                     <Card.Text>
                                         <b>Fact Check Date</b> : {item.date}
                                     </Card.Text>
@@ -136,9 +124,9 @@ class SimilarClaims extends React.Component {
                                             <b>Rating</b> : <Badge variant="success">{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</Badge>
                                         </Card.Text>
                                     )}
-                                    <Card.Text>
+                                    {/* <Card.Text>
                                         <i>Cosine Distance, Sentiment</i> : {item.cosine_dist}, {item.sentiments}
-                                    </Card.Text>
+                                    </Card.Text> */}
                                 </Card.Body>
                             </Card>
                             <br />

@@ -17,7 +17,7 @@ class PopularClaims extends React.Component {
         } else if (val === 3) {
             claim = 'Hydroxychloroquine (HCQ) can prevent COVID-19'
         } else {
-            claim = 'Pets can transmit coronavirus'
+            claim = 'Hypertension is a common comorbidity seen in COVID-19 patients'
         }
 
         this.props.history.push({
@@ -32,12 +32,12 @@ class PopularClaims extends React.Component {
     render() {
         return (
             <div>
-                <b>Most Searched Claims</b>
+                <b>Try out these claims!</b>
                 <ListGroup variant="flush">
                     <ListGroup.Item action onClick={(e) => this.handleClick(1, e)}>Face masks can be steamed for reuse</ListGroup.Item>
                     <ListGroup.Item action onClick={(e) => this.handleClick(2, e)}>5G mobile networks do not spread COVID-19</ListGroup.Item>
                     <ListGroup.Item action onClick={(e) => this.handleClick(3, e)}>Hydroxychloroquine (HCQ) can prevent COVID-19</ListGroup.Item>
-                    <ListGroup.Item action onClick={(e) => this.handleClick(4, e)}>Pets can transmit coronavirus</ListGroup.Item>
+                    <ListGroup.Item action onClick={(e) => this.handleClick(4, e)}>Hypertension is a common comorbidity seen in COVID-19 patients</ListGroup.Item>
                 </ListGroup>
             </div>
         );

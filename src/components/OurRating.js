@@ -2,6 +2,7 @@ import React from "react";
 import axios from 'axios';
 import { Card, Spinner, ProgressBar } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
+import ReactSpeedometer from "react-d3-speedometer"
 
 class OurRating extends React.Component {
     constructor(props) {
@@ -64,21 +65,59 @@ class OurRating extends React.Component {
 
     render() {
         if (this.state.isLoaded === true) {
-            const progressBarPercentage = this.getConfidenceLevel(this.state.score, this.threshold)
+            let progressBarPercentage = this.getConfidenceLevel(this.state.score, this.threshold)
             const ratingLabel = this.getRatingLabel(this.state.score, this.threshold);
+
+            let value;
+            if(ratingLabel === "False") {
+                value = 100 - progressBarPercentage
+            } else {
+                value = progressBarPercentage
+            }
             return (
-                <Card style={{ height: '10rem' }}>
-                <Card.Header>Our Rating</Card.Header>
-                <Card.Body>
-                    <Card.Title>
-                        {ratingLabel}
-                    </Card.Title>
-                    <ProgressBar 
-                        now={progressBarPercentage} 
-                        label={`${progressBarPercentage}% ${ratingLabel}`} 
-                        variant={this.getProgressBarVariant(this.state.score, this.threshold)}
-                    />
-                </Card.Body>
+                <Card style={{ height: '18rem' }}>
+                    <Card.Header>
+                        Our Rating ({progressBarPercentage}% {ratingLabel})
+                    </Card.Header>
+                    <Card.Body>
+                        <Card.Text><i>Note : This rating was predicted by our algorithm</i></Card.Text>
+                        <center>
+                            <ReactSpeedometer
+                                width={250}
+                                minValue={0}
+                                maxValue={100}
+                                needleHeightRatio={0.6}
+                                value={value}
+                                customSegmentStops={[0, 25, 75, 100]}
+                                segmentColors={["#dc3545", "#ffc107", "#28a745"]}
+                                currentValueText="COVIDFact Rating"
+                                customSegmentLabels={[
+                                {
+                                    text: "False",
+                                    position: "OUTSIDE",
+                                    color: "#000000",
+                                },
+                                {
+                                    text: "Not enough evidence",
+                                    position: "OUTSIDE",
+                                    color: "#000000",
+                                },
+                                {
+                                    text: "True",
+                                    position: "OUTSIDE",
+                                    color: "#000000",
+                                },
+                                ]}
+                                ringWidth={25}
+                                needleTransitionDuration={3333}
+                                needleTransition="easeElastic"
+                                needleColor={"#a7ff83"}
+                                textColor={"#000000"}
+                                labelFontSize={"13"}
+                            />
+                        </center>
+                        <br />
+                    </Card.Body>
                 </Card>
             );
         }

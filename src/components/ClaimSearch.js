@@ -34,6 +34,7 @@ class ClaimSearch extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        // this.handleKeyDown = this.handleKeyDown.bind(this);
     }
 
     handleInputChange(val) {
@@ -44,6 +45,13 @@ class ClaimSearch extends React.Component {
         this.props.onSelectedValue(selected);
 
     }
+
+    // handleKeyDown = (e) => {
+    //     if (e.key === 'Enter') {
+    //         console.log('do validate ');
+    //         this.props.onEnter();
+    //     }
+    // }
 
     handleSearch = (query) => {
         this.setState({isLoading: true});
@@ -83,6 +91,7 @@ class ClaimSearch extends React.Component {
                     labelKey={option => `${option.claim}`}
                     onSearch={this.handleSearch}
                     onInputChange={this.handleInputChange}
+                    // onKeyDown={this.handleKeyDown}
                     onChange={this.handleChange}
                     options={this.state.options}
                     placeholder={this.props.placeHolder}
