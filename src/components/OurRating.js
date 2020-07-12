@@ -1,6 +1,6 @@
 import React from "react";
 import axios from 'axios';
-import { Card, Spinner, ProgressBar } from "react-bootstrap";
+import { Card, Spinner } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import ReactSpeedometer from "react-d3-speedometer"
 
@@ -16,7 +16,7 @@ class OurRating extends React.Component {
     }
 
     getConfidenceLevel = (score, threshold) => {
-        const truthfulPercentage = (score * 100).toFixed(2);
+        const truthfulPercentage = +(score * 100).toFixed(2);
         if (score > threshold) {
             return truthfulPercentage
         }

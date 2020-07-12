@@ -1,12 +1,13 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { Card, Tab, Tabs, Container, ProgressBar, Popover, Row, Col, Button } from "react-bootstrap";
-import ReactSpeedometer from "react-d3-speedometer"
+import { Tab, Tabs, Container, Row, Col, Button } from "react-bootstrap";
 
 import Rating from "./Rating";
 import ClaimSearch from "./ClaimSearch";
 import SimilarClaims from "./SimilarClaims";
 import ResearchPapers from "./ResearchPapers";
+
+import { submitFeedback, feedbackTypes } from "../shared/submitFeedback";
 
 import '../App.css';
 
@@ -34,15 +35,18 @@ class Predict extends React.Component {
             return;
         }
 
-        this.setState({claimIndexResult: val, claim: val[0].claim, isValidatedClaim: true });
+        const selectedClaim = val[0].claim;
+        submitFeedback(selectedClaim, true, feedbackTypes.userQuery);
+        this.setState({claimIndexResult: val, claim: selectedClaim, isValidatedClaim: true });
         this.props.history.push({
             pathname: '/predict',
-            state: { claimIndexResult: val, claim: val[0].claim, isValidatedClaim: true }
+            state: { claimIndexResult: val, claim: selectedClaim, isValidatedClaim: true }
         })
     }
 
     handlePredict() {
         const newClaim = this.myRef;
+        submitFeedback(newClaim, false, feedbackTypes.userQuery);
         this.setState({ claim: newClaim, isValidatedClaim: false });
         this.props.history.push({
             pathname: '/predict',
