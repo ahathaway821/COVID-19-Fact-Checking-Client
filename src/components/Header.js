@@ -32,7 +32,7 @@ class Header extends React.Component {
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="ml-auto">
                                 <Nav.Item><Nav.Link href="/about">About Us</Nav.Link></Nav.Item>
-                                <Nav.Item><Nav.Link href="/data">Our Data</Nav.Link></Nav.Item>
+                                <Nav.Item><Nav.Link href="/data">Our Model</Nav.Link></Nav.Item>
                             </Nav>
                         </Navbar.Collapse>
                     </Navbar>
