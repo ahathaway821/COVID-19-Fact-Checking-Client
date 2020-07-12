@@ -1,9 +1,11 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { Row, Col, Image, Button, Popover } from "react-bootstrap";
+import { Row, Col, Image, Button } from "react-bootstrap";
 
 import ClaimSearch from "./ClaimSearch";
 import PopularClaims from "./PopularClaims";
+
+import { submitFeedback, feedbackTypes } from "../shared/submitFeedback";
 
 import logo from "../img/logo2.png";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
@@ -28,15 +30,20 @@ class Home extends React.Component {
     }
 
     handleSelectedValue(val) {
-        this.setState({ value: val[0].claim, isValidatedClaim: true });
+        const selectedClaim = val[0].claim;
+        submitFeedback(selectedClaim, true, feedbackTypes.userQuery)
+
+        this.setState({ value: selectedClaim, isValidatedClaim: true });
         this.props.history.push({
             pathname: '/predict',
-            state: { claimIndexResult: val, claim: val[0].claim, isValidatedClaim: true }
+            state: { claimIndexResult: val, claim: selectedClaim, isValidatedClaim: true }
         })
     }
 
     handlePredict() {
         if(this.myRef.current !== null) {
+            submitFeedback(this.myRef, false, feedbackTypes.userQuery);
+
             this.props.history.push({
                 pathname: '/predict',
                 state: { 
