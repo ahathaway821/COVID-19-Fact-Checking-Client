@@ -80,7 +80,7 @@ class OurRating extends React.Component {
                         Our Rating ({progressBarPercentage}% {ratingLabel})
                     </Card.Header>
                     <Card.Body>
-                        <Card.Text><i>Note : This rating was predicted by our algorithm</i></Card.Text>
+                        <Card.Text><i>This rating was predicted by our algorithm</i></Card.Text>
                         <center>
                             <ReactSpeedometer
                                 width={250}

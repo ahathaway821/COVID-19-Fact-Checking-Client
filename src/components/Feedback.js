@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Modal, Form, ButtonGroup } from "react-bootstrap";
+import { Card, Button, Modal, Form } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 
 import { submitFeedback, feedbackTypes } from "../shared/submitFeedback";
@@ -69,12 +69,10 @@ class Feedback extends React.Component {
             <Card>
                 <Card.Header>Feedback</Card.Header>
                 <Card.Body>
-                        {'Do you agree with our prediction?'}
-                        {' '}
-                        <ButtonGroup aria-label="Basic example">
-                            <Button variant="secondary" onClick={() => this.handleShowModal(true)}>Yes</Button>
-                            <Button variant="secondary" onClick={() => this.handleShowModal(false)}>No</Button>
-                        </ButtonGroup>
+                    {'Do you agree with our prediction?'}
+                    {' '}
+                    <Button variant="secondary" size="sm" onClick={() => this.handleShowModal(true)}>Yes</Button>{' '}
+                    <Button variant="secondary" size="sm" onClick={() => this.handleShowModal(false)}>No</Button>
                 </Card.Body>
             </Card>
             <Modal show={this.state.showModal} onHide={this.handleCloseModal}>

@@ -8,7 +8,7 @@ let isLocal = process.env.IS_LOCAL ?? false;
 let SEARCH_URI = ''
 let config = {};
 
-//isLocal = true;
+isLocal = true;
 
 if (isLocal) {
   const HOST = process.env.ES_HOST ?? 'http://localhost:9200/';
@@ -76,6 +76,9 @@ class ClaimSearch extends React.Component {
                 date: i._source.date,
                 explanation: i._source.explanation,
                 clean_claim: i._source.clean_claim,
+                source: i._source.source,
+                source_label: i._source.source_label,
+                fact_check_url: i._source.fact_check_url
             }));
             this.setState({options: opts, isLoading: false});
         })

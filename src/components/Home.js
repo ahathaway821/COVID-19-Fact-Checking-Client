@@ -79,7 +79,7 @@ class Home extends React.Component {
                     onSelectedValue={this.handleSelectedValue} 
                     onChangeValue={this.handleChangeValue}
                     // onEnter={this.handleEnter}
-                    placeHolder={"Search for a COVID-19 Fact"}
+                    placeHolder={"Search for a COVID-19 Claim"}
                 />
                 <br />
                 <div className="text-center">

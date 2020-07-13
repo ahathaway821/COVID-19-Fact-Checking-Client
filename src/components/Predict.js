@@ -66,7 +66,7 @@ class Predict extends React.Component {
                             <ClaimSearch 
                                 onSelectedValue={this.handleSelectedValue}                 
                                 onChangeValue={this.handleChangeValue}
-                                placeHolder={"Search for another claim"}
+                                placeHolder={"Search for another COVID-19 claim"}
                             />
                         </Col>
                         <Col xs={4} md={2}>

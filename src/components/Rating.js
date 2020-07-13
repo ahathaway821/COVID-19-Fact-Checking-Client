@@ -6,13 +6,11 @@ import Feedback from './Feedback';
 import ReactSpeedometer from "react-d3-speedometer"
 
 class Rating extends React.Component {
-
-
-
     render() {
         // If claim is pre-checked or not
         if (this.props.isValidatedClaim === true) {
-            const { claim_source, date, explanation, label } = this.props.claimIndexResult[0];
+            console.log("this.props", this.props.claimIndexResult);
+            const { claim_source, date, explanation, label, source, source_label, fact_check_url } = this.props.claimIndexResult[0];
 
             let value;
             if (label === "true") {
@@ -38,7 +36,7 @@ class Rating extends React.Component {
                                     Rating
                                 </Card.Header>
                                 <Card.Body>
-                                    <Card.Text><i>Note : This claim was fact-checked by a human</i></Card.Text>
+                                    <Card.Text><i>This claim was fact-checked by {source}</i></Card.Text>
                                     <center>
                                         <ReactSpeedometer
                                             width={250}
@@ -79,7 +77,7 @@ class Rating extends React.Component {
                         </Col>
                     </Row>
                     <br />
-                    <Card style={{ height: '20rem' }}>
+                    <Card>
                         <Card.Header>More Details</Card.Header>
                         <Card.Body>
                             <Card.Title>
@@ -92,13 +90,19 @@ class Rating extends React.Component {
                                 Fact Check Date
                             </Card.Title>
                             <Card.Text>
-                                {date ? date : "-"}
+                                {date !== "1970-01-01" ? date : "-"}
+                            </Card.Text>
+                            <Card.Title>
+                                Fact Check URL
+                            </Card.Title>
+                            <Card.Text>
+                                {fact_check_url ? <a href={fact_check_url}>{fact_check_url}</a> : "-"}
                             </Card.Text>
                             <Card.Title>
                                 Source of Claim
                             </Card.Title>
                             <Card.Text>
-                                {claim_source ? <a href={claim_source}>{claim_source}</a> : "-"}
+                                {claim_source.trim() ? <a href={claim_source}>{claim_source}</a> : "-"}
                             </Card.Text>
                         </Card.Body>
                     </Card>
