@@ -23,11 +23,12 @@ class Predict extends React.Component {
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.handleSelectedValue = this.handleSelectedValue.bind(this);
         this.handlePredict = this.handlePredict.bind(this);
-        this.myRef = React.createRef();
+        this.claimInput = React.createRef();
+        this.predictButton = React.createRef();
     }
 
     handleChangeValue(val) {
-        this.myRef = val;
+        this.claimInput = val;
     }
 
     handleSelectedValue(val) {
@@ -45,7 +46,7 @@ class Predict extends React.Component {
     }
 
     handlePredict() {
-        const newClaim = this.myRef;
+        const newClaim = this.claimInput;
         submitFeedback(newClaim, false, feedbackTypes.userQuery);
         this.setState({ claim: newClaim, isValidatedClaim: false });
         this.props.history.push({
@@ -67,10 +68,16 @@ class Predict extends React.Component {
                                 onSelectedValue={this.handleSelectedValue}                 
                                 onChangeValue={this.handleChangeValue}
                                 placeHolder={"Search for another COVID-19 claim"}
+                                onEnter={this.handlePredict}
+                                predictButton={this.predictButton}
                             />
                         </Col>
                         <Col xs={4} md={2}>
-                            <Button variant="secondary" onClick={this.handlePredict}>Predict</Button>
+                            <Button 
+                                variant="secondary" 
+                                onClick={this.handlePredict}>
+                                Predict
+                            </Button>
                         </Col>
                     </Row>
                 </Container>

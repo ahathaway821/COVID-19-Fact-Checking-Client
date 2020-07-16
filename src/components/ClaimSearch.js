@@ -34,7 +34,8 @@ class ClaimSearch extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
-        // this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.keyPress = this.keyPress.bind(this);
+        this.pdiv = React.createRef();
     }
 
     handleInputChange(val) {
@@ -43,15 +44,15 @@ class ClaimSearch extends React.Component {
 
     handleChange(selected) {
         this.props.onSelectedValue(selected);
-
     }
 
-    // handleKeyDown = (e) => {
-    //     if (e.key === 'Enter') {
-    //         console.log('do validate ');
-    //         this.props.onEnter();
-    //     }
-    // }
+    keyPress(e) {
+        // On enter key
+        if(e.keyCode === 13){
+            this.pdiv.current.click(); // hide search results right after search
+            this.props.onEnter();
+        }
+     }
 
     handleSearch = (query) => {
         this.setState({isLoading: true});
@@ -86,7 +87,7 @@ class ClaimSearch extends React.Component {
 
     render() {
         return (
-            <div className="sticky-top">
+            <div className="sticky-top" ref={this.pdiv}>
                 <AsyncTypeahead
                     id="aync-claim-search"
                     isLoading={this.state.isLoading}
@@ -96,6 +97,7 @@ class ClaimSearch extends React.Component {
                     onInputChange={this.handleInputChange}
                     // onKeyDown={this.handleKeyDown}
                     onChange={this.handleChange}
+                    onKeyDown={this.keyPress}
                     options={this.state.options}
                     placeholder={this.props.placeHolder}
                     filterBy={(option, props) => option}

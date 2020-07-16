@@ -78,7 +78,7 @@ class Home extends React.Component {
                 <ClaimSearch 
                     onSelectedValue={this.handleSelectedValue} 
                     onChangeValue={this.handleChangeValue}
-                    // onEnter={this.handleEnter}
+                    onEnter={this.handlePredict}
                     placeHolder={"Search for a COVID-19 Claim"}
                 />
                 <br />
